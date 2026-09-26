@@ -7,9 +7,12 @@ Steps:
 3. MS-ASL val and test are pooled and re-split so that the test set has
    TEST_PER_CLASS clips per class. Clips from the same YouTube video always
    stay on the same side, so val and test never share a recording.
+4. Clips whose video download_clips.py could not download are dropped
+   (listed in data/msasl_download_failures.json).
 
 All original MS-ASL metadata is kept. Every entry gets a "source" field
-("MS-ASL" or "WLASL"). Nothing in data/raw/ is modified.
+("MS-ASL" or "WLASL") and a "clip_path" to its video file (MS-ASL clips are
+created by download_clips.py). Nothing in data/raw/ is modified.
 
 Run from the repository root:
     python src/preprocessing/check_availability.py   # once, needs internet
@@ -54,8 +57,12 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 RAW_DIR = REPO_ROOT / "data" / "raw"
 OUT_DIR = REPO_ROOT / "data"
 AVAILABILITY_FILE = OUT_DIR / "video_availability.json"
+# Videos that download_clips.py could not download (e.g. they need a login).
+DOWNLOAD_FAILURES_FILE = OUT_DIR / "msasl_download_failures.json"
 # WLASL videos for the selected classes only, as data/wlasl/<word>/<id>.mp4.
 WLASL_DIR = OUT_DIR / "wlasl"
+# Trimmed MS-ASL clips, as data/msasl/<word>/<video id>_<start frame>_<end frame>.mp4.
+MSASL_CLIPS_DIR = OUT_DIR / "msasl"
 
 # (split name, MS-ASL input file, output file)
 SPLITS = [
@@ -96,8 +103,14 @@ def load_msasl(input_name, availability):
                 "Run: python src/preprocessing/check_availability.py"
             )
         if status == "ok":
-            kept.append({**entry, "source": "MS-ASL"})
+            kept.append({**entry, "source": "MS-ASL", "clip_path": msasl_clip_path(entry)})
     return kept
+
+
+def msasl_clip_path(entry):
+    """Where download_clips.py saves this MS-ASL clip (relative to the repo root)."""
+    clip_id = f"{video_id(entry['url'])}_{entry['start']}_{entry['end']}"
+    return f"{MSASL_CLIPS_DIR.relative_to(REPO_ROOT).as_posix()}/{entry['text']}/{clip_id}.mp4"
 
 
 def load_wlasl():
@@ -109,7 +122,7 @@ def load_wlasl():
         for path in sorted((WLASL_DIR / word).glob("*.mp4")):
             entries.append({
                 "text": word,
-                "file": path.relative_to(REPO_ROOT).as_posix(),
+                "clip_path": path.relative_to(REPO_ROOT).as_posix(),
                 "video_id": path.stem,
                 "source": "WLASL",
             })
@@ -151,6 +164,14 @@ def split_val_test(entries):
     return val, test
 
 
+def load_download_failures():
+    """Video ids that download_clips.py could not download."""
+    if not DOWNLOAD_FAILURES_FILE.exists():
+        return {}
+    with open(DOWNLOAD_FAILURES_FILE, encoding="utf-8") as f:
+        return json.load(f)
+
+
 def write_json_lines(entries, path):
     """Write a JSON array with one compact entry per line."""
     lines = [json.dumps(entry, separators=(",", ":")) for entry in entries]
@@ -186,6 +207,17 @@ def main():
     train = msasl["train"] + load_wlasl()
     val, test = split_val_test(msasl["val"] + msasl["test"])
     splits = {"train": train, "val": val, "test": test}
+
+    # Drop clips that could not be downloaded. Done after the val/test split so
+    # the split itself does not change when a download fails.
+    failed = load_download_failures()
+    for name in splits:
+        kept = [e for e in splits[name]
+                if e["source"] != "MS-ASL" or video_id(e["url"]) not in failed]
+        if len(kept) < len(splits[name]):
+            print(f"Dropped {len(splits[name]) - len(kept)} {name} clips "
+                  f"whose video could not be downloaded")
+        splits[name] = kept
 
     for name, _, output_name in SPLITS:
         write_json_lines(splits[name], OUT_DIR / output_name)

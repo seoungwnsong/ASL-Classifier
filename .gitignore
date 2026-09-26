@@ -24,3 +24,12 @@ env/
 *.log
 # WLASL videos are too large for GitHub; keep them locally at "WLASL 100/"
 WLASL 100/
+
+# Full YouTube videos downloaded by download_clips.py (only the trimmed clips are kept)
+data/msasl_downloads/
+
+# Trimmed MS-ASL clips (~400 MB): shared as a zip, not in git
+data/msasl/
+
+# Zipped clip bundles shared outside git
+*.zip
