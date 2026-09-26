@@ -1,0 +1,26 @@
+data/raw/
+
+.DS_Store
+**/.DS_Store
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+.venv/
+venv/
+env/
+
+.idea/
+.vscode/
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+.env
+.env.*
+
+*.log
+# WLASL videos are too large for GitHub; keep them locally at "WLASL 100/"
+WLASL 100/
