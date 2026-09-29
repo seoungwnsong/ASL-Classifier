@@ -9,6 +9,8 @@ Steps:
    stay on the same side, so val and test never share a recording.
 4. Clips whose video download_clips.py could not download are dropped
    (listed in data/msasl_download_failures.json).
+5. WLASL train clips whose source is a YouTube video used in val/test are
+   dropped, so no recording appears in both training and evaluation.
 
 All original MS-ASL metadata is kept. Every entry gets a "source" field
 ("MS-ASL" or "WLASL") and a "clip_path" to its video file (MS-ASL clips are
@@ -57,6 +59,8 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 RAW_DIR = REPO_ROOT / "data" / "raw"
 OUT_DIR = REPO_ROOT / "data"
 AVAILABILITY_FILE = OUT_DIR / "video_availability.json"
+# WLASL metadata (source URL of each video), used for the leakage check.
+WLASL_METADATA_FILE = RAW_DIR / "WLASL_v0.3.json"
 # Videos that download_clips.py could not download (e.g. they need a login).
 DOWNLOAD_FAILURES_FILE = OUT_DIR / "msasl_download_failures.json"
 # WLASL videos for the selected classes only, as data/wlasl/<word>/<id>.mp4.
@@ -172,6 +176,30 @@ def load_download_failures():
         return json.load(f)
 
 
+def drop_wlasl_leakage(train, eval_entries):
+    """Remove WLASL train clips taken from a YouTube video used in val/test.
+
+    Uses the source URLs in data/raw/WLASL_v0.3.json (from the WLASL GitHub repo).
+    """
+    if not WLASL_METADATA_FILE.exists():
+        print(f"WARNING: {WLASL_METADATA_FILE.name} not found, skipping the WLASL leakage check")
+        return train
+    with open(WLASL_METADATA_FILE, encoding="utf-8") as f:
+        source_url = {inst["video_id"]: inst["url"] for gloss in json.load(f) for inst in gloss["instances"]}
+
+    eval_videos = {video_id(e["url"]) for e in eval_entries}
+    kept = []
+    for entry in train:
+        match = entry["source"] == "WLASL" and re.search(
+            r"(?:v=|youtu\.be/|embed/)([\w-]{11})", source_url.get(entry["video_id"], ""))
+        if match and match.group(1) in eval_videos:
+            continue
+        kept.append(entry)
+    print(f"WLASL leakage check: removed {len(train) - len(kept)} train clips "
+          "that share a YouTube video with val/test")
+    return kept
+
+
 def write_json_lines(entries, path):
     """Write a JSON array with one compact entry per line."""
     lines = [json.dumps(entry, separators=(",", ":")) for entry in entries]
@@ -218,6 +246,8 @@ def main():
             print(f"Dropped {len(splits[name]) - len(kept)} {name} clips "
                   f"whose video could not be downloaded")
         splits[name] = kept
+
+    splits["train"] = drop_wlasl_leakage(splits["train"], splits["val"] + splits["test"])
 
     for name, _, output_name in SPLITS:
         write_json_lines(splits[name], OUT_DIR / output_name)

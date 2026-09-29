@@ -33,3 +33,19 @@ data/msasl/
 
 # Zipped clip bundles shared outside git
 *.zip
+
+# Extracted keypoints (shared as a zip with the clips) and MediaPipe models (downloaded automatically)
+data/keypoints/
+models/
+
+# Picture made by extract_keypoints.py --preview
+keypoints_preview.png
+
+# Jupyter autosaves
+.ipynb_checkpoints/
+
+# Saved deep learning models (large)
+*.pt
+*.pth
+*.h5
+*.ckpt
