@@ -54,3 +54,9 @@ keypoints_preview.png
 *.pth
 *.h5
 *.ckpt
+
+# Per-clip debug pictures from src/algorithmic/show_head_debug.py (the overview head_debug.png is kept)
+results/figures/head_debug/
+
+# Personal Claude Code settings
+.claude/

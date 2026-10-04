@@ -3,7 +3,7 @@
 A small website for measuring human accuracy and speed on the same 136-clip test set the models use.
 
 ```
-quiz/
+src/human_baseline/quiz/
 ├── app.py            # Flask server: serves the pages, the question lists and the videos,
 │                     #   and appends test results to results/test_results.csv
 ├── practice.json     # 20 practice clips (1 per sign, none from the test set)
@@ -21,12 +21,12 @@ From the repo root:
 
 ```bash
 pip install flask
-python quiz/app.py
+python src/human_baseline/quiz/app.py
 ```
 
 Then open http://127.0.0.1:5050
 
-The videos must be in `msasl/<word>/...mp4` at the repo root.
+The videos must be in `data/msasl/<word>/...mp4` (where `msasl_clips.zip` puts them); `msasl/<word>/...mp4` at the repo root also works.
 
 ## Modes
 

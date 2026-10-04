@@ -1,6 +1,6 @@
 """Tiny web server for the ASL human-baseline quiz.
 
-Run from the repo root:   python quiz/app.py
+Run from the repo root:   python src/human_baseline/quiz/app.py
 Then open:                http://127.0.0.1:5050
 """
 import csv
@@ -9,8 +9,8 @@ from pathlib import Path
 
 from flask import Flask, jsonify, request, send_from_directory
 
-QUIZ_DIR = Path(__file__).resolve().parent  # .../ASL-Classifier/quiz
-REPO_DIR = QUIZ_DIR.parent                   # .../ASL-Classifier
+QUIZ_DIR = Path(__file__).resolve().parent  # .../ASL-Classifier/src/human_baseline/quiz
+REPO_DIR = QUIZ_DIR.parents[2]               # .../ASL-Classifier
 
 TEST_JSON = REPO_DIR / "data" / "test.json"
 # Maps each test clip to a short id (a001, a002, ...) used in the results CSV.
@@ -87,11 +87,15 @@ def save_results():
     return jsonify({"saved": len(rows), "file": str(RESULTS_CSV.relative_to(REPO_DIR))})
 
 
-# Videos: each entry's clip_path is relative to the repo root, e.g. "msasl/no/xyz.mp4",
-# so the browser can request it unchanged as "/msasl/no/xyz.mp4".
+# Videos: each entry's clip_path is like "msasl/no/xyz.mp4", so the browser requests
+# "/msasl/no/xyz.mp4". The clips are in data/msasl/ (where download_clips.py and the
+# zip put them); msasl/ at the repo root is also accepted.
 @app.route("/msasl/<path:path>")
 def msasl_video(path):
-    return send_from_directory(REPO_DIR / "msasl", path)
+    folder = REPO_DIR / "data" / "msasl"
+    if not (folder / path).exists():
+        folder = REPO_DIR / "msasl"
+    return send_from_directory(folder, path)
 
 
 @app.route("/data/<path:path>")
