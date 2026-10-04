@@ -1,0 +1,22 @@
+[
+  {"text": "hello", "label": 0, "clip_path": "msasl/hello/FbBdHdmt5oI_0_70.mp4"},
+  {"text": "nice", "label": 1, "clip_path": "msasl/nice/2PeTh4Ym048_0_98.mp4"},
+  {"text": "teacher", "label": 2, "clip_path": "msasl/teacher/7klDf0ZSN_M_2975_3017.mp4"},
+  {"text": "eat", "label": 3, "clip_path": "msasl/eat/sErq0TJMKEo_3858_3981.mp4"},
+  {"text": "no", "label": 4, "clip_path": "msasl/no/rTykxVBxc00_0_51.mp4"},
+  {"text": "happy", "label": 5, "clip_path": "msasl/happy/7b4vSYwKgok_375_413.mp4"},
+  {"text": "like", "label": 6, "clip_path": "msasl/like/SbXfT74yfDI_0_89.mp4"},
+  {"text": "want", "label": 8, "clip_path": "msasl/want/38kOjIIo8yQ_0_105.mp4"},
+  {"text": "deaf", "label": 9, "clip_path": "msasl/deaf/sP4e9vRUCYM_0_73.mp4"},
+  {"text": "school", "label": 10, "clip_path": "msasl/school/PsLiyUyrqds_20_80.mp4"},
+  {"text": "finish", "label": 12, "clip_path": "msasl/finish/1v-MqrbC5Js_2180_2234.mp4"},
+  {"text": "tired", "label": 16, "clip_path": "msasl/tired/1RRUK21Xyzw_0_93.mp4"},
+  {"text": "mother", "label": 19, "clip_path": "msasl/mother/mfrGIHTnKvI_873_894.mp4"},
+  {"text": "yes", "label": 20, "clip_path": "msasl/yes/zGwP9fAhpl4_0_140.mp4"},
+  {"text": "learn", "label": 22, "clip_path": "msasl/learn/2j7WDaPzZJ8_0_86.mp4"},
+  {"text": "good", "label": 24, "clip_path": "msasl/good/_ZlZH4b0C44_428_457.mp4"},
+  {"text": "sad", "label": 27, "clip_path": "msasl/sad/fnhiGz4qE_I_1052_1101.mp4"},
+  {"text": "need", "label": 29, "clip_path": "msasl/need/XDH2QGZpMT4_0_62.mp4"},
+  {"text": "father", "label": 31, "clip_path": "msasl/father/_3uIYCAkNL8_0_79.mp4"},
+  {"text": "please", "label": 47, "clip_path": "msasl/please/p8OYydc3WQM_7710_7824.mp4"}
+]

@@ -1,4 +1,6 @@
 data/raw/
+data/msasl/
+
 
 .DS_Store
 **/.DS_Store
@@ -33,6 +35,9 @@ data/msasl/
 
 # Zipped clip bundles shared outside git
 *.zip
+
+# Video clips (WLASL and MS-ASL) are kept locally, not in git
+*.mp4
 
 # Extracted keypoints (shared as a zip with the clips) and MediaPipe models (downloaded automatically)
 data/keypoints/

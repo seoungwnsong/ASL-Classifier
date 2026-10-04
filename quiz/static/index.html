@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ASL Sign Quiz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <!-- Only one .screen is visible at a time (see showScreen in quiz.js). -->
+
+    <!-- 1. Start screen: pick a mode -->
+    <section id="start-screen" class="screen">
+      <h1>ASL Sign Quiz</h1>
+      <p>Watch each video and type the English word for the sign.</p>
+
+      <div class="card">
+        <h2>Practice</h2>
+        <p>20 signs, one video each. You're told the right answer after each one.</p>
+        <button id="practice-btn">Start practice</button>
+      </div>
+
+      <div class="card">
+        <h2>Test</h2>
+        <p>136 videos, timed, no feedback until the end. Results are saved.</p>
+        <form id="test-form">
+          <input id="name-input" type="text" autocomplete="off" placeholder="Participant (e.g. Person 1)" required>
+          <button type="submit">Start test</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- 2. Question screen: video + answer box (used by both modes) -->
+    <section id="quiz-screen" class="screen" hidden>
+      <div class="quiz-header">
+        <span id="progress"></span>
+        <span id="timer" hidden></span>
+      </div>
+
+      <!-- video-box is the visible window; video-frame holds the full video frame
+           and is moved/scaled so only the signer area shows (see layoutVideo). -->
+      <div id="video-box">
+        <div id="video-frame">
+          <video id="video" muted playsinline></video>
+        </div>
+      </div>
+      <p id="video-missing" class="warning" hidden></p>
+      <button id="replay-btn" type="button">Replay</button>
+
+      <form id="answer-form">
+        <input id="answer-input" type="text" autocomplete="off" placeholder="Type the word…">
+        <button id="submit-btn" type="submit">Submit</button>
+        <button id="skip-btn" type="button" class="secondary" hidden>Don't know</button>
+      </form>
+
+      <p id="feedback"></p>
+      <button id="next-btn" hidden>Next</button>
+    </section>
+
+    <!-- 3. End screen -->
+    <section id="end-screen" class="screen" hidden>
+      <h1>Done!</h1>
+      <p>Score: <strong id="final-score"></strong></p>
+      <p id="final-time" hidden></p>
+      <p id="save-status"></p>
+      <div class="buttons">
+        <button id="retry-save-btn" hidden>Retry saving</button>
+        <button id="restart-btn" hidden>Practice again (new shuffle)</button>
+        <button id="home-btn">Back to start</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="quiz.js"></script>
+</body>
+</html>
