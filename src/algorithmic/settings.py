@@ -59,3 +59,28 @@ MOTION_SKIN_ONLY = True
 
 # Size of the clean-up step (removes tiny specks of motion; must be odd).
 MOTION_CLEAN = 3
+
+# ---- Zones around the head ----
+
+# Only the middle part of each clip is used: at the start and end the hands are
+# often rising from (or dropping to) rest, which is not part of the sign.
+MIDDLE_START = 0.2   # skip the first 20% of the frames
+MIDDLE_END = 0.8     # and the last 20%
+
+# The three rows, measured in head radii from the head centre (down = positive).
+#   top:   forehead and above the eyes
+#   face:  eyes down to just below the chin
+#   chest: below the chin down to the stomach
+ROWS = {
+    "top":   (-2.0, -0.3),
+    "face":  (-0.3, 1.3),
+    "chest": (1.3, 5.0),
+}
+
+# The hand is at the TOP of the moving arm, so the chosen row is the highest
+# row with at least this share of the busiest row's motion.
+ROW_MIN_SHARE = 0.5
+
+# Two hands: the weaker side (left or right of the head's centre line) has at
+# least this share of the stronger side's motion.
+TWO_HANDS_BALANCE = 0.5
