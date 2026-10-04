@@ -60,3 +60,6 @@ results/figures/head_debug/
 
 # Personal Claude Code settings
 .claude/
+
+# Per-clip debug pictures from src/algorithmic/show_motion_debug.py (the overview motion_debug.png is kept)
+results/figures/motion_debug/

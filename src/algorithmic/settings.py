@@ -42,3 +42,20 @@ SKIN_UPPER = (255, 173, 127)
 
 # A head circle must be at least this skin-coloured inside (fraction of pixels).
 HEAD_MIN_SKIN = 0.3
+
+# ---- Motion (frame differencing) ----
+
+# Blur strength before comparing frames (must be odd): removes video noise,
+# so only real movement is counted.
+MOTION_BLUR = 5
+
+# A pixel "moved" if its brightness changed by more than this between two
+# frames (0-255 scale).
+MOTION_THRESHOLD = 25
+
+# Keep only moving pixels that are skin-coloured (the hands), so a moving
+# shirt or hair is not counted.
+MOTION_SKIN_ONLY = True
+
+# Size of the clean-up step (removes tiny specks of motion; must be odd).
+MOTION_CLEAN = 3
