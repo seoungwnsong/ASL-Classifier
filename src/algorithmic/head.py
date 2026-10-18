@@ -1,9 +1,5 @@
 """Find the signer's head in a video with the Hough circle transform.
 
-No learned model is used: the head is the strongest circle of a head-like size,
-in the upper part of the frame, whose inside is mostly skin-coloured
-(cv2.HoughCircles = Canny edges + circle voting; skin = a fixed colour range).
-
 References:
 - OpenCV Hough Circle Transform tutorial,
   https://docs.opencv.org/4.x/da/d53/tutorial_py_houghcircles.html
@@ -12,7 +8,6 @@ References:
 
 import cv2
 import numpy as np
-
 import settings
 
 

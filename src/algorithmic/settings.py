@@ -60,7 +60,8 @@ MOTION_SKIN_ONLY = True
 # Size of the clean-up step (removes tiny specks of motion; must be odd).
 MOTION_CLEAN = 3
 
-# ---- Zones around the head ----
+# ---- The 7 measurements (features.py) ----
+# Distances are measured in head radii (r), so they work for any signer size.
 
 # Only the middle part of each clip is used: at the start and end the hands are
 # often rising from (or dropping to) rest, which is not part of the sign.
@@ -84,3 +85,27 @@ ROW_MIN_SHARE = 0.5
 # Two hands: the weaker side (left or right of the head's centre line) has at
 # least this share of the stronger side's motion.
 TWO_HANDS_BALANCE = 0.5
+
+# Repeated: the amount of motion per frame is smoothed over this many frames,
+# then a "burst" starts each time it rises above BURST_LEVEL x its maximum.
+# The motion is repeated if there are at least REPEATED_MIN_BURSTS bursts.
+SMOOTH_FRAMES = 3
+BURST_LEVEL = 0.7      # 0.5 counted small wiggles as bursts (almost every clip was "repeated")
+REPEATED_MIN_BURSTS = 2
+
+# Direction: the hand counts as moving up/down if its height at the end of the
+# middle part differs from the start by more than this (in head radii).
+DIRECTION_MIN = 0.5
+
+# Moving skin blobs smaller than this share of the head's area are ignored
+# (specks, not hands).
+MIN_BLOB = 0.05
+
+# Hand size: the biggest moving blob is "big" (open hand) if its area is at
+# least this share of the head's area, otherwise "small" (closed/bunched hand).
+HAND_SIZE_BIG = 0.16   # typical training blobs are 0.07-0.32 of the head area (median 0.16)
+
+# Hands apart: distance between the two biggest moving blobs, in head widths
+# (2r): closer than HANDS_CLOSE = "close", further than HANDS_FAR = "far".
+HANDS_CLOSE = 1.0
+HANDS_FAR = 2.5

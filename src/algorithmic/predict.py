@@ -17,7 +17,7 @@ from pathlib import Path
 import pandas as pd
 
 from rules import predict_word
-from zones import clip_zones
+from features import clip_features
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TRAIN_OUT = REPO_ROOT / "results" / "algorithmic_train.csv"
@@ -30,10 +30,10 @@ def predict_split(split):
     clips = metadata[metadata["split"] == split]
     rows = []
     for i, (_, clip) in enumerate(clips.iterrows(), start=1):
-        zones = clip_zones(REPO_ROOT / clip["clip_path"])
+        features = clip_features(REPO_ROOT / clip["clip_path"])
         rows.append({
             "Example ID": clip["example_id"],
-            "Algorithmic Prediction": predict_word(zones),
+            "Algorithmic Prediction": predict_word(features),
             "True Word": clip["word"],
         })
         if i % 100 == 0:
