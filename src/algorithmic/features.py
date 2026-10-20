@@ -27,8 +27,6 @@ def middle_frames(frames):
     return frames[start:end]
 
 
-# ---- 1 and 2: from the motion map (all middle frames added up) ----
-
 def measure_row(energy, head):
     """The highest row (top, face, chest) with a fair share of the motion."""
     x, y, radius = head
@@ -52,8 +50,6 @@ def measure_hands(energy, head):
         return "one"
     return "two" if min(left, right) / max(left, right) >= settings.TWO_HANDS_BALANCE else "one"
 
-
-# ---- 3 to 7: from each frame's moving blobs ----
 
 def frame_blobs(mask, min_area):
     """The moving blobs in one motion mask, biggest first: list of (area, centre_x, centre_y)."""
