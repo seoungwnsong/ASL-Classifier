@@ -6,10 +6,6 @@ the hands moved a lot, no colour where nothing moved. The green circle is the he
 Saves one picture per clip in results/figures/motion_debug/ and one overview
 picture as results/figures/motion_debug.png. Uses the same random training
 clips as show_head_debug.py.
-
-Run from the repository root:
-    python src/algorithmic/show_motion_debug.py          # 20 random training clips
-    python src/algorithmic/show_motion_debug.py 40       # 40 clips
 """
 
 import sys
