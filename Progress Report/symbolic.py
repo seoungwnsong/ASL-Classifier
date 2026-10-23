@@ -203,12 +203,11 @@ def predict(video_path):
         """Share of the word's measurements (ignoring None) that match the clip."""
         wanted = [(m, v) for m, v in zip(MEASUREMENTS, SIGNS[word]) if v is not None]
         return sum(features[m] == v for m, v in wanted) / len(wanted)
-    return max(SIGNS, key=score)  # if two words tie, the one listed first wins
-
+    return max(SIGNS, key=score) 
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         video = Path(sys.argv[1])
     else:
-        video = Path(__file__).parent / "sample_test_clip.mp4"
+        video = Path(__file__).parent / "sample.mp4"
     print(f"{video.name}: predicted word: {predict(video)}")
