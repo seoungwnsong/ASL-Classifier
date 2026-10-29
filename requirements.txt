@@ -8,3 +8,8 @@ pandas
 
 # Human-baseline quiz website (quiz/app.py)
 flask
+
+# Deep learning approach (src/deep_learning/): pretrained VideoPrism from keras_hub
+keras
+keras-hub
+tensorflow

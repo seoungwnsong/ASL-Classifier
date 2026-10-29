@@ -39,6 +39,9 @@ data/msasl/
 # Video clips (WLASL and MS-ASL) are kept locally, not in git
 *.mp4
 
+# VideoPrism features made by src/deep_learning/extract_features.py (can be rebuilt)
+data/features/
+
 # Extracted keypoints (shared as a zip with the clips) and MediaPipe models (downloaded automatically)
 data/keypoints/
 models/
@@ -50,6 +53,7 @@ keypoints_preview.png
 .ipynb_checkpoints/
 
 # Saved deep learning models (large)
+*.keras
 *.pt
 *.pth
 *.h5

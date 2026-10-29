@@ -1,0 +1,137 @@
+video_id,split,left,top,right,bottom,text
+GOczM9jk2xY,val,0.0,0.82,0.3,0.97,"FATHER, MOTHER"
+iR6M4P6XqB0,val,0.35,0.8,0.65,0.92,"LIBRARIAN, TEACHER"
+PBDUwwE9BFM,val,0.08,0.28,0.3,0.42,"tired, clean"
+bFm9sAXhmkQ,val,0.08,0.08,0.28,0.2,Happy
+qysriDtUS5o,val,0.08,0.08,0.3,0.2,"Happy, Mother"
+7m6N78E-5uE,val,0.1,0.76,0.36,0.9,"mother, father"
+0bIF7jh6lnE,val,0.08,0.3,0.42,0.5,"deaf, no"
+V8DTIPK4QlU,val,0.03,0.76,0.2,0.88,Hello!
+5sILDEiOcQ0,val,0.0,0.22,0.42,0.38,word left of signer
+HUMEcnkvhJU,val,0.65,0.07,0.88,0.2,"DAD, YES"
+bX1eJjB3nyA,val,0.05,0.07,0.4,0.2,"YES, TEACHER"
+1bj72qXSy8c,val,0.0,0.22,0.42,0.38,word left of signer
+rIlQQTN2b58,val,0.0,0.22,0.42,0.38,word left of signer
+91foGHKuwL0,val,0.02,0.85,0.25,0.97,"GOOD, TIRED"
+c49qWjgFtRI,val,0.02,0.85,0.25,0.97,"SCHOOL, LEARN"
+ucXplZLMUzY,val,0.55,0.78,0.95,0.96,"SCHOOL, DAD"
+xIIGn6cn8BI,val,0.65,0.82,0.99,0.95,"School, TEACHER"
+FBimL8-ND3E,val,0.02,0.9,0.24,1.0,"HELLO, FOOD"
+J6H-B-rbdg8,val,0.0,0.78,0.24,0.92,Learn
+jQb9NL9_S6U,train,0.25,0.83,0.75,0.96,"Happy, Must"
+_HOx2QkkTsg,train,0.68,0.0,0.97,0.14,word top-right (MySmartHands)
+htsdwxJ-fTo,train,0.05,0.06,0.3,0.2,"MOM, TIRED"
+c2W6TVd_xh4,train,0.05,0.06,0.3,0.2,"LIKE, SAD"
+DGFSZB6BLLc,train,0.62,0.4,0.9,0.56,To eat
+mC0lNJ6iz-s,train,0.0,0.86,0.7,0.99,"SCHOOL, FINISH!!"
+RWYus9H4YrQ,train,0.28,0.0,0.72,0.17,to Clean
+E4LtjQ3gUO0,train,0.68,0.0,0.97,0.14,word top-right (MySmartHands)
+y3Vd7SZ_bp4,train,0.03,0.04,0.27,0.18,CLEAN
+fKjsdtMU3fc,train,0.22,0.06,0.5,0.2,"HAPPY, LIKE"
+OSpNDIzYRTw,train,0.2,0.0,0.5,0.25,word top-left of signer
+a9aoS1DL93k,train,0.0,0.9,0.25,1.0,FINISH
+QTbj2GM5ohs,train,0.66,0.04,0.95,0.2,word top-right
+my4mxg6lXYQ,train,0.64,0.17,0.95,0.42,"DEAF, TEACHER"
+LPyvlWpL-xk,train,0.2,0.0,0.5,0.25,word top-left of signer
+_rviR_jhCmg,train,0.62,0.47,0.9,0.62,Please
+DZEs6UDnPHA,train,0.25,0.83,0.55,0.95,FINISH!
+TwkGS9TjUX8,train,0.0,0.85,0.32,0.97,"Mother / Mom, Like"
+u0XAd3TkGaA,train,0.0,0.87,0.25,0.99,"CLEAN, GOOD!"
+f7COHRpmVKA,train,0.0,0.84,0.24,0.97,"TEACHER, TIRED"
+SiTBL7DYzZQ,train,0.66,0.04,0.95,0.2,word top-right
+mCjHYreiZ24,train,0.0,0.9,0.22,1.0,LIKE
+6XcxbPfP5YQ,train,0.66,0.04,0.95,0.2,word top-right
+3zoqSvF0Z2A,train,0.0,0.87,0.22,0.99,"Dad, Hello"
+GLBRC1sVygY,train,0.66,0.04,0.95,0.2,word top-right
+NOZSXL8Z_Q4,train,0.0,0.85,0.24,0.98,"TEACHER, CLEAN"
+vE4RFGPqGqY,train,0.64,0.15,0.88,0.31,Food
+6UrcyZ-QeiU,train,0.35,0.86,0.65,1.0,"Eat, Dad"
+Tckw40A23Bc,train,0.2,0.0,0.5,0.25,word top-left of signer
+g5VCwKZib-M,train,0.66,0.13,0.95,0.29,School
+8OGGZyG8S9g,train,0.3,0.0,0.7,0.15,to Learn
+5S3qaGLdPmE,train,0.35,0.84,0.8,0.97,"FEEL TIRED, EAT"
+RISfMnVFUZw,train,0.68,0.0,0.97,0.14,word top-right (MySmartHands)
+Xt6F1wT394I,train,0.03,0.04,0.46,0.3,"Must, Vomit"
+wkxCnCMo7Mc,train,0.35,0.85,0.65,0.98,DEAF
+QB44Vddoi-w,train,0.1,0.17,0.38,0.35,Hello
+k0T-yY_HrEQ,train,0.0,0.0,0.32,0.16,WANT
+eMZdggjnLQA,train,0.05,0.08,0.5,0.36,"TIRED, YES"
+sG6kSLPCQ3A,train,0.52,0.14,0.95,0.35,SHOULD
+-LB4ENHxcIs,train,0.0,0.0,0.24,0.14,"please, learn"
+Nf_0FxqOIWM,train,0.05,0.06,0.3,0.22,TIRED
+HYK7P7Cm_aY,train,0.62,0.13,0.92,0.33,teacher
+jzemBg_G8zU,train,0.2,0.0,0.5,0.25,word top-left of signer
+UKGBW9-wo4k,train,0.72,0.04,0.92,0.18,TEACHER
+IMF7K2ClfQc,train,0.08,0.13,0.3,0.3,"finish, clean"
+D5Glywo1wSA,train,0.68,0.0,0.97,0.14,word top-right (MySmartHands)
+7iuyJ84wvds,train,0.62,0.4,0.9,0.56,Hello
+rnr_aY0X0dQ,train,0.02,0.19,0.22,0.33,"Deaf, No"
+2nXrJ_7NOgE,train,0.66,0.1,0.95,0.28,"Feel-tired, (2h)eat"
+wv5nc3pbyK0,train,0.66,0.04,0.95,0.2,word top-right
+lElR-sVcYyw,train,0.0,0.78,0.65,0.96,"WANT, FINISH!!"
+kAnBm2RQb-0,train,0.03,0.0,0.27,0.22,LIKE
+SC9lyDxbwUE,train,0.0,0.84,0.24,0.97,"HAPPY, GOOD"
+p0pH9V0frOs,train,0.68,0.0,0.97,0.14,word top-right (MySmartHands)
+5Sb-YjNphkY,train,0.2,0.0,0.5,0.25,word top-left of signer
+UXetwN_cI5A,train,0.3,0.0,0.7,0.17,"Father, Should"
+rWIDL_GpaJc,train,0.35,0.86,0.65,1.0,"Deaf, Like"
+MDQQ9WZNwcc,train,0.5,0.82,0.8,0.95,"Yes, Need"
+9RvIkK-t0SA,train,0.68,0.25,0.92,0.42,WANT
+qAF88xW4xPY,train,0.68,0.19,0.92,0.37,Food
+L1ocXM_uzLA,train,0.68,0.0,0.97,0.14,word top-right (MySmartHands)
+YasOpK1RNvg,train,0.05,0.04,0.32,0.19,"DEAF, WANT"
+sEjaTTIdHhk,train,0.52,0.12,0.95,0.35,"HELLO, TIRED"
+hUrfB8bikfw,train,0.05,0.04,0.26,0.19,FOOD
+DOZJOFHs75s,train,0.1,0.2,0.36,0.38,"YES, DEAF"
+KftGqsKKn7w,train,0.0,0.81,0.25,1.0,"Father, Mother"
+NAZKMt2NhtU,train,0.1,0.2,0.4,0.38,CLEAN
+IrdTDCpIunA,train,0.05,0.87,0.3,0.99,School
+_uxgyigXU3g,train,0.62,0.4,0.85,0.55,Yes
+XUg1eKl65p4,train,0.06,0.1,0.3,0.25,FATHER
+XtkDeYBnR8o,train,0.08,0.03,0.3,0.2,"eat, want"
+Fz1I_Ssr3AE,train,0.2,0.0,0.5,0.25,word top-left of signer
+E0nkn4JtHgU,train,0.68,0.0,0.97,0.14,word top-right (MySmartHands)
+3_lBaA2U6aY,train,0.0,0.26,0.2,0.42,"Must, Finish"
+pv1yeA4iHmU,train,0.38,0.82,0.88,0.97,"Mom / Mother, Dad / Father"
+Fef0GDkOO6k,train,0.68,0.0,0.97,0.14,word top-right (MySmartHands)
+75BkNdtDsoQ,train,0.14,0.0,0.5,0.16,"MOTHER, NICE CLEAN"
+6YIy2EVFKaA,train,0.68,0.0,0.97,0.14,word top-right (MySmartHands)
+KRrKqGEGdMg,train,0.0,0.87,0.22,0.99,"LIKE, NEED"
+Tg0ltpSAQrk,train,0.66,0.1,0.95,0.27,School
+oDDEMBNkB9M,train,0.05,0.76,0.25,0.9,Learn
+ZHUVt5W8UEk,train,0.05,0.03,0.3,0.17,"DEAF, TIRED"
+Ni6Uixw5Qmo,train,0.62,0.06,0.92,0.21,TEACHER
+1E8k8gI_xYk,train,0.28,0.81,0.72,0.95,FATHER or DAD
+Cv5avR9nEhg,train,0.66,0.06,0.95,0.24,"Feel-tired, (2h)eat"
+-A4DGiMwiu8,train,0.68,0.0,0.97,0.14,word top-right (MySmartHands)
+rkQZQhloXuE,train,0.08,0.16,0.34,0.34,"want, sad"
+PvzBgEcEPew,train,0.2,0.0,0.5,0.25,word top-left of signer
+Vintf-DLWq0,train,0.2,0.8,0.85,0.97,Finish
+Q6CfqYwp1ag,train,0.68,0.0,0.97,0.14,word top-right (MySmartHands)
+uPKOwziViaw,train,0.66,0.15,0.95,0.32,"GOOD, YES"
+iHR2uV-Uxc8,train,0.05,0.02,0.36,0.18,"MOTHER, LEARN"
+JHFExZgYdwk,train,0.66,0.1,0.92,0.33,"HELLO, NEED"
+Ag5VPvAe8PA,train,0.0,0.84,0.22,0.97,"NICE, LIKE"
+KHJjHjG-8JU,train,0.08,0.14,0.34,0.34,"mom, dad"
+gU5EI_ZTzxw,train,0.4,0.7,0.64,0.81,Hello
+owXsDIKq4lk,train,0.12,0.17,0.38,0.35,"Deaf, Yes"
+TYEae1fcehg,train,0.78,0.0,1.0,0.14,TEACHER
+Eq6SnaimpzQ,train,0.04,0.74,0.26,0.9,"Deaf, Yes"
+yG09SQB0Hds,train,0.38,0.83,0.7,0.97,"HELLO, FINISHED!"
+thdb-I-H9kE,train,0.78,0.03,0.92,0.18,EAT
+TDoqoJDX280,train,0.05,0.06,0.3,0.21,"LEARN, YES"
+3RB642y8sgo,train,0.1,0.72,0.7,0.92,Deaf
+UoITyyziLOw,train,0.36,0.82,0.66,0.96,"SCHOOL, FINISH!"
+kdz5f_PJxDk,train,0.0,0.87,0.24,0.99,FINISH
+oVsuQbfMscM,train,0.05,0.06,0.3,0.21,CLEAN
+yDNcxRM9Nf8,train,0.68,0.0,0.97,0.14,word top-right (MySmartHands)
+4AwP2ED0O78,train,0.0,0.84,0.24,0.97,Teacher
+q_p38s5JsXo,train,0.68,0.12,0.92,0.3,"YES, EAT"
+P3tBJESDamE,train,0.03,0.75,0.28,0.88,"TEACHER, SCHOOL"
+GqF8lSxalYo,train,0.68,0.0,0.97,0.14,word top-right (MySmartHands)
+k-AZCZlPECE,train,0.68,0.0,0.97,0.14,word top-right (MySmartHands)
+fNg_sJ9f8EI,train,0.0,0.87,0.22,0.99,NO
+9g-hioQapYE,test,0.0,0.78,0.36,1.0,"WANT, MOTHER, ..."
+GmxS5HkNc3o,test,0.52,0.12,0.85,0.38,"Like, Finish, ..."
+ybhXZy32d1E,test,0.0,0.4,0.565,0.62,"Father/Daddy, Mother/Mommy"
+G77ZoILMYw4,test,0.07,0.8,0.33,0.95,TEACHER
