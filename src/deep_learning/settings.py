@@ -34,6 +34,7 @@ BLACK_FRAME_MAX = 30
 # ---- Files ----
 
 METADATA = REPO_ROOT / "data" / "metadata.csv"
+FEATURES_DIR = REPO_ROOT / "data" / "features"  # made by extract_features.py
 CAPTION_COVERS = REPO_ROOT / "data" / "caption_covers.csv"
 SPLIT_JSONS = [REPO_ROOT / "data" / f"{split}.json" for split in ("train", "val", "test")]
 WLASL_METADATA = REPO_ROOT / "data" / "raw" / "WLASL_v0.3.json"
