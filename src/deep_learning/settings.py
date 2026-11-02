@@ -31,10 +31,31 @@ BLACK_FRAME_MAX = 30
 # of every source video (frames at 0%, 50% and 100%), then checked again on the
 # cropped, covered model input (2 clips x 2 frames per video).
 
+# ---- New layers on top (the "head"), trained by train.py ----
+
+# Neurons in the hidden Dense layer (0 = no hidden layer). This is the capacity
+# hyperparameter we tune on the validation clips.
+HIDDEN_UNITS = 128
+
+# Fraction of numbers randomly set to 0 during training, so the head cannot just
+# memorise the 794 training clips.
+DROPOUT = 0.3
+
+# Training stops when the validation loss has not improved for PATIENCE epochs,
+# and the weights go back to the best epoch.
+EPOCHS = 300
+PATIENCE = 30
+BATCH_SIZE = 32
+
+# Same random start every run, so results can be repeated.
+SEED = 0
+
 # ---- Files ----
 
 METADATA = REPO_ROOT / "data" / "metadata.csv"
 FEATURES_DIR = REPO_ROOT / "data" / "features"  # made by extract_features.py
+MODELS_DIR = REPO_ROOT / "models"  # trained heads, saved by train.py
+FIGURES_DIR = REPO_ROOT / "results" / "figures"
 CAPTION_COVERS = REPO_ROOT / "data" / "caption_covers.csv"
 SPLIT_JSONS = [REPO_ROOT / "data" / f"{split}.json" for split in ("train", "val", "test")]
 WLASL_METADATA = REPO_ROOT / "data" / "raw" / "WLASL_v0.3.json"
