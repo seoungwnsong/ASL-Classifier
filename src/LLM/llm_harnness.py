@@ -34,7 +34,7 @@ OPTIONS = {
 }
 
 # Must match save_frames.py: frames are read from data/llm_frames/n<N_FRAMES>/<example_id>/
-N_FRAMES = 8
+N_FRAMES = 16
 FRAMES_DIR = REPO_ROOT / "data" / "llm_frames" / f"n{N_FRAMES}"
 
 # The 20 words, in the order of SELECTED_CLASSES in src/preprocessing/filter_dataset.py.

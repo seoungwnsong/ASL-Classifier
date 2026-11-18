@@ -7,12 +7,16 @@ which is also the view the human participants saw:
     2. black out on-screen text (the answer word is written on some source videos)
     3. crop to the signer box, pad to a square, resize
 
+Only the clips of SPLITS are saved: the same train, val and test clips as the deep
+learning approach, all with the same number of frames, so llm_harnness.py reads
+N_FRAMES frames per clip whichever split it runs on.
+
 Saves data/llm_frames/n<N_FRAMES>/<example_id>/00.jpg, 01.jpg, ...
 The folders are named by example ID only (e.g. train_0012, a001), never by the word,
 so nothing about the label can reach the model.
 
 Run from the repository root (after make_metadata.py):
-    python src/llm/save_frames.py
+    python src/LLM/save_frames.py
 To try a different number of frames, change N_FRAMES and run again: each number of
 frames is saved in its own folder, so the old frames are kept.
 """
@@ -29,7 +33,8 @@ sys.path.insert(0, str(REPO_ROOT / "src" / "deep_learning"))
 import settings as dl_settings  # noqa: E402  (deep learning settings: paths, black-frame threshold)
 from frames import load_clip_info, prepare_frame, read_frames  # noqa: E402
 
-N_FRAMES = 8
+N_FRAMES = 16  # same number of frames per clip as the deep learning input
+SPLITS = ["train", "val", "test"]  # same clips as the deep learning approach
 FRAMES_DIR = REPO_ROOT / "data" / "llm_frames" / f"n{N_FRAMES}"
 
 
@@ -47,6 +52,7 @@ def save_clip(clip_path, out_dir, clip_info):
 
 def main():
     metadata = pd.read_csv(dl_settings.METADATA)
+    metadata = metadata[metadata["split"].isin(SPLITS)]
     clip_info = load_clip_info()
     done = 0
     for clip in metadata.itertuples():
