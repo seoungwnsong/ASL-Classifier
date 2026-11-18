@@ -67,3 +67,6 @@ results/figures/head_debug/
 
 # Per-clip debug pictures from src/algorithmic/show_motion_debug.py (the overview motion_debug.png is kept)
 results/figures/motion_debug/
+
+# Still frames for the LLM approach, made by src/LLM/save_frames.py (can be rebuilt)
+data/llm_frames/
