@@ -13,7 +13,6 @@ Based on the course's demo harness (movie-review sentiment).
 
 import csv
 import json
-import random
 import sys
 import time
 from pathlib import Path
@@ -22,7 +21,7 @@ import ollama
 import pandas as pd
 
 from fewshot import FEWSHOT  # src/LLM/fewshot.py: the labelled example clips
-from save_frames import N_FRAMES, clip_dir  # where save_frames.py put the frames
+from save_frames import N_FRAMES, clip_dir, training_subset  # where save_frames.py put the frames
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 METADATA = REPO_ROOT / "data" / "metadata.csv"  # example_id, split, word, source, clip_path
@@ -57,11 +56,8 @@ def label_schema(with_reasoning=False):
     return {"type": "object", "properties": properties, "required": list(properties)}
 
 
-# Develop prompts on a fixed random subset of the TRAINING clips: PER_CLASS clips of
-# every word, so all 20 words are covered (20 x 6 = 120 clips; each clip = 0.8 points).
-# Few-shot examples (clips whose frames or labels appear in a prompt) are left out.
-PER_CLASS = 6
-FEWSHOT_IDS = [example["example_id"] for example in FEWSHOT]  # every training example_id used in any prompt
+# Develop prompts on a fixed subset of the TRAINING clips: training_subset() and PER_CLASS
+# are in save_frames.py, which saves frames only for those clips (in train/).
 
 # Versions that use the schema with a "reasoning" field before "answer".
 REASONING_VERSIONS = set()
@@ -224,17 +220,6 @@ def split_rows(split):
     """All clips of one split, as dicts with example_id and word."""
     metadata = pd.read_csv(METADATA)
     return metadata[metadata["split"] == split][["example_id", "word"]].to_dict("records")
-
-
-def training_subset():
-    """The same PER_CLASS training clips of every word, every time, without the few-shot examples."""
-    rows = [row for row in split_rows("train") if row["example_id"] not in FEWSHOT_IDS]
-    rng = random.Random(211)
-    subset = []
-    for word in LABELS:
-        clips = [row for row in rows if row["word"] == word]
-        subset += rng.sample(clips, min(PER_CLASS, len(clips)))
-    return subset
 
 
 def compare(versions, rows, split):
