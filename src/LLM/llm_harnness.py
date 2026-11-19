@@ -33,6 +33,9 @@ OPTIONS = {
     "temperature": 0,  # always choose the most likely next token, so runs are repeatable
     "seed": 211,
     "num_ctx": 8192,   # the context window, in tokens; every image takes up a few hundred
+    # Cap on output tokens. Needed: with images, this Ollama server (0.33.3) answers
+    # "400 Failed to tokenize prompt" when num_predict is unset or >= ~512.
+    "num_predict": 256,
 }
 
 # N_FRAMES and the frame folders come from save_frames.py, so the two always match:
@@ -172,6 +175,10 @@ def predict(version, example_id):
         messages=build_messages(version, example_id),
         format=label_schema(version in REASONING_VERSIONS),
         options=OPTIONS,
+        # gemma4 can "think" before answering; with few-shot clips it does, and the hidden
+        # thinking uses up num_predict, leaving an empty answer. Chain-of-thought goes in the
+        # schema's "reasoning" field instead.
+        think=False,
     )
     seconds = time.perf_counter() - start
     try:
