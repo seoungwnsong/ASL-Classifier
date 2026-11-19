@@ -55,9 +55,9 @@ def label_schema(with_reasoning=False):
 
 
 # Develop prompts on a fixed random subset of the TRAINING clips: PER_CLASS clips of
-# every word, so all 20 words are covered (20 x 3 = 60 clips; each clip = 1.7 points).
+# every word, so all 20 words are covered (20 x 6 = 120 clips; each clip = 0.8 points).
 # Few-shot examples (clips whose frames or labels appear in a prompt) are left out.
-PER_CLASS = 3
+PER_CLASS = 6
 FEWSHOT_IDS = []  # every training example_id used in any prompt
 
 # Versions that use the schema with a "reasoning" field before "answer".
