@@ -63,7 +63,7 @@ def label_schema(with_reasoning=False):
 REASONING_VERSIONS = set()
 
 # Versions that show the FEWSHOT clips, each with its correct answer, before the clip to classify.
-FEWSHOT_VERSIONS = {"v2"}
+FEWSHOT_VERSIONS = set()
 
 # One entry per prompt version. {n_frames} is replaced by N_FRAMES; the frames
 # themselves are attached as images, never written in the text.
@@ -100,27 +100,8 @@ need, nice, no, please, sad, school, teacher, tired, want, yes
 
 Answer with exactly one of the labels.""",
 
-    # change: few-shot. Copy of v1, but first show the 3 FEWSHOT clips (sad, deaf, eat),
-    #         each followed by its correct answer, and say so in the task
-    # hypothesis: seeing real signs with their words shows the model what to look for
-    #             (hand shape, where the hands are, how they move), so accuracy should go up,
-    #             most on sad, deaf and eat; it may also guess those 3 words too often
-    "v2": """<task>
-You will see {n_frames} frames, in order, taken evenly from a short video of one person
-signing a single word in American Sign Language (ASL).
-Which word is being signed?
-First, a few example clips are shown, each followed by its correct answer.
-</task>
-
-<labels>
-deaf, eat, father, finish, good, happy, hello, learn, like, mother,
-need, nice, no, please, sad, school, teacher, tired, want, yes
-</labels>
-
-Answer with exactly one of the labels.""",
-
-    # v3: copy v2 (or an earlier version) here, make ONE change, and write the change and hypothesis above it.
-    # For chain-of-thought, also add "v3" to REASONING_VERSIONS; for few-shot, to FEWSHOT_VERSIONS.
+    # v2: copy v1 (or v0) here, make ONE change, and write the change and hypothesis above it.
+    # For chain-of-thought, also add "v2" to REASONING_VERSIONS; for few-shot, to FEWSHOT_VERSIONS.
 }
 
 
