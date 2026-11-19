@@ -11,8 +11,13 @@ Only the clips of SPLITS are saved: the same train, val and test clips as the de
 learning approach, all with the same number of frames, so llm_harnness.py reads
 N_FRAMES frames per clip whichever split it runs on.
 
-Saves data/llm_frames/n<N_FRAMES>/<example_id>/00.jpg, 01.jpg, ...
-The folders are named by example ID only (e.g. train_0012, a001), never by the word,
+Saves data/llm_frames/n<N_FRAMES>/<folder>/<example_id>/00.jpg, 01.jpg, ...
+where <folder> is one of
+    fewshot   the few-shot example clips listed in fewshot.py (training clips, never scored)
+    train     every other training clip
+    val       the validation clips
+    test      the test clips
+The clip folders are named by example ID only (e.g. train_0012, a001), never by the word,
 so nothing about the label can reach the model.
 
 Run from the repository root (after make_metadata.py):
@@ -32,10 +37,18 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT / "src" / "deep_learning"))
 import settings as dl_settings  # noqa: E402  (deep learning settings: paths, black-frame threshold)
 from frames import load_clip_info, prepare_frame, read_frames  # noqa: E402
+from fewshot import FEWSHOT  # noqa: E402  (src/LLM/fewshot.py)
 
 N_FRAMES = 16  # same number of frames per clip as the deep learning input
 SPLITS = ["train", "val", "test"]  # same clips as the deep learning approach
 FRAMES_DIR = REPO_ROOT / "data" / "llm_frames" / f"n{N_FRAMES}"
+FEWSHOT_IDS = {example["example_id"] for example in FEWSHOT}
+
+
+def clip_dir(example_id, split):
+    """The folder of one clip's frames: few-shot examples in fewshot/, every other clip
+    in the folder of its split. llm_harnness.py reads the frames from here too."""
+    return FRAMES_DIR / ("fewshot" if example_id in FEWSHOT_IDS else split) / example_id
 
 
 def save_clip(clip_path, out_dir, clip_info):
@@ -56,7 +69,7 @@ def main():
     clip_info = load_clip_info()
     done = 0
     for clip in metadata.itertuples():
-        out_dir = FRAMES_DIR / clip.example_id
+        out_dir = clip_dir(clip.example_id, clip.split)
         if len(list(out_dir.glob("*.jpg"))) == N_FRAMES:
             continue  # already saved: never redo the conversion
         save_clip(clip.clip_path, out_dir, clip_info)

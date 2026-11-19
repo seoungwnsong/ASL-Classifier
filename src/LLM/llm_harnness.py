@@ -21,6 +21,9 @@ from pathlib import Path
 import ollama
 import pandas as pd
 
+from fewshot import FEWSHOT  # src/LLM/fewshot.py: the labelled example clips
+from save_frames import N_FRAMES, clip_dir  # where save_frames.py put the frames
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 METADATA = REPO_ROOT / "data" / "metadata.csv"  # example_id, split, word, source, clip_path
 RUNS_DIR = REPO_ROOT / "results" / "llm_runs"   # saved responses, one .jsonl per version and split
@@ -33,9 +36,9 @@ OPTIONS = {
     "num_ctx": 8192,   # the context window, in tokens; every image takes up a few hundred
 }
 
-# Must match save_frames.py: frames are read from data/llm_frames/n<N_FRAMES>/<example_id>/
-N_FRAMES = 16
-FRAMES_DIR = REPO_ROOT / "data" / "llm_frames" / f"n{N_FRAMES}"
+# N_FRAMES and the frame folders come from save_frames.py, so the two always match:
+# data/llm_frames/n<N_FRAMES>/<fewshot|train|val|test>/<example_id>/
+SPLIT_OF = pd.read_csv(METADATA).set_index("example_id")["split"]  # which folder each clip is in
 
 # The 20 words, in the order of SELECTED_CLASSES in src/preprocessing/filter_dataset.py.
 LABELS = ["hello", "yes", "no", "please", "need", "good", "nice", "eat", "tired", "want",
@@ -58,10 +61,13 @@ def label_schema(with_reasoning=False):
 # every word, so all 20 words are covered (20 x 6 = 120 clips; each clip = 0.8 points).
 # Few-shot examples (clips whose frames or labels appear in a prompt) are left out.
 PER_CLASS = 6
-FEWSHOT_IDS = []  # every training example_id used in any prompt
+FEWSHOT_IDS = [example["example_id"] for example in FEWSHOT]  # every training example_id used in any prompt
 
 # Versions that use the schema with a "reasoning" field before "answer".
 REASONING_VERSIONS = set()
+
+# Versions that show the FEWSHOT clips, each with its correct answer, before the clip to classify.
+FEWSHOT_VERSIONS = {"v2"}
 
 # One entry per prompt version. {n_frames} is replaced by N_FRAMES; the frames
 # themselves are attached as images, never written in the text.
@@ -98,17 +104,37 @@ need, nice, no, please, sad, school, teacher, tired, want, yes
 
 Answer with exactly one of the labels.""",
 
-    # v2: copy v1 (or v0) here, make ONE change, and write the change and hypothesis above it.
-    # For chain-of-thought, also add "v2" to REASONING_VERSIONS.
+    # change: few-shot. Copy of v1, but first show the 3 FEWSHOT clips (sad, deaf, eat),
+    #         each followed by its correct answer, and say so in the task
+    # hypothesis: seeing real signs with their words shows the model what to look for
+    #             (hand shape, where the hands are, how they move), so accuracy should go up,
+    #             most on sad, deaf and eat; it may also guess those 3 words too often
+    "v2": """<task>
+You will see {n_frames} frames, in order, taken evenly from a short video of one person
+signing a single word in American Sign Language (ASL).
+Which word is being signed?
+First, a few example clips are shown, each followed by its correct answer.
+</task>
+
+<labels>
+deaf, eat, father, finish, good, happy, hello, learn, like, mother,
+need, nice, no, please, sad, school, teacher, tired, want, yes
+</labels>
+
+Answer with exactly one of the labels.""",
+
+    # v3: copy v2 (or an earlier version) here, make ONE change, and write the change and hypothesis above it.
+    # For chain-of-thought, also add "v3" to REASONING_VERSIONS; for few-shot, to FEWSHOT_VERSIONS.
 }
 
 
 def load_frames(example_id):
     """The saved frames of one clip, as image bytes (made by save_frames.py)."""
-    paths = sorted((FRAMES_DIR / example_id).glob("*.jpg"))
+    folder = clip_dir(example_id, SPLIT_OF[example_id])
+    paths = sorted(folder.glob("*.jpg"))
     if len(paths) != N_FRAMES:
-        sys.exit(f"Expected {N_FRAMES} frames in {FRAMES_DIR / example_id}, found {len(paths)}. "
-                 "Run: python src/llm/save_frames.py")
+        sys.exit(f"Expected {N_FRAMES} frames in {folder}, found {len(paths)}. "
+                 "Run: python src/LLM/save_frames.py")
     # Send the bytes, not the paths: the model must never see a file name.
     return [p.read_bytes() for p in paths]
 
@@ -117,13 +143,28 @@ def build_prompt(version):
     return PROMPTS[version].replace("{n_frames}", str(N_FRAMES))
 
 
+def build_messages(version, example_id):
+    """The chat sent for one clip. Few-shot versions first show each FEWSHOT clip as a
+    user turn, followed by its correct answer as the model's own reply."""
+    if version not in FEWSHOT_VERSIONS:
+        return [{"role": "user", "content": build_prompt(version), "images": load_frames(example_id)}]
+    messages = []
+    for k, example in enumerate(FEWSHOT):
+        intro = build_prompt(version) + "\n\n" if k == 0 else ""
+        messages.append({"role": "user", "content": f"{intro}Example clip {k + 1}:",
+                         "images": load_frames(example["example_id"])})
+        messages.append({"role": "assistant", "content": json.dumps({"answer": example["word"]})})
+    messages.append({"role": "user", "content": "New clip:", "images": load_frames(example_id)})
+    return messages
+
+
 def predict(version, example_id):
     """Ask the model about one clip. Returns (prediction, response, seconds).
     The prediction is None if the output is not one of the labels."""
     start = time.perf_counter()
     response = ollama.chat(
         model=MODEL,
-        messages=[{"role": "user", "content": build_prompt(version), "images": load_frames(example_id)}],
+        messages=build_messages(version, example_id),
         format=label_schema(version in REASONING_VERSIONS),
         options=OPTIONS,
     )
@@ -140,7 +181,8 @@ def run(version, rows, out_file):
     The first line of out_file records the setup. If out_file already has the
     outputs for exactly this setup and these rows, they are loaded instead."""
     setup = {"model": MODEL, "options": OPTIONS, "n_frames": N_FRAMES,
-             "schema": label_schema(version in REASONING_VERSIONS), "prompt": build_prompt(version)}
+             "schema": label_schema(version in REASONING_VERSIONS), "prompt": build_prompt(version),
+             "fewshot": FEWSHOT if version in FEWSHOT_VERSIONS else []}
     ids = [row["example_id"] for row in rows]
     if Path(out_file).exists():
         with open(out_file, encoding="utf-8") as f:
@@ -151,7 +193,10 @@ def run(version, rows, out_file):
 
     print(f"\n===== {version}: the exact prompt for {ids[0]} =====")
     print(build_prompt(version))
-    print(f"[+ {N_FRAMES} images attached, from {(FRAMES_DIR / ids[0]).relative_to(REPO_ROOT)}]")
+    print(f"[+ {N_FRAMES} images attached, from {clip_dir(ids[0], SPLIT_OF[ids[0]]).relative_to(REPO_ROOT)}]")
+    if version in FEWSHOT_VERSIONS:
+        print(f"[shown first: {len(FEWSHOT)} example clips with their answers, "
+              f"{', '.join(example['word'] for example in FEWSHOT)}]")
     print("=====")
     results = []
     with open(out_file, "w", encoding="utf-8") as f:
