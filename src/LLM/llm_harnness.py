@@ -100,8 +100,36 @@ need, nice, no, please, sad, school, teacher, tired, want, yes
 
 Answer with exactly one of the labels.""",
 
-    # v2: copy v1 (or v0) here, make ONE change, and write the change and hypothesis above it.
-    # For chain-of-thought, also add "v2" to REASONING_VERSIONS; for few-shot, to FEWSHOT_VERSIONS.
+    # change: builds on v0, but with SEVERAL changes at once:
+    #         1. a <role> (expert ASL interpreter)
+    #         2. the frames are numbered in the task (Frame 1 to Frame {n_frames})
+    #         3. the labels in a new order (neither v0's nor v1's)
+    #         4. a <format> section asking for JSON, with an example answer ("hello")
+    # hypothesis: a clearer role, frame order and answer format help the model read the
+    #             signs, so accuracy should go up over v0; since several things changed,
+    #             a score change cannot be pinned on one of them
+    "v2": """<role>
+You are an expert American Sign Language (ASL) interpreter who can recognize signs
+from still frames of a video.
+</role>
+
+<task>
+You will see {n_frames} frames, in order (Frame 1 to Frame {n_frames}), taken evenly from a short
+video of one person signing a single word in ASL. Identify which word is being signed.
+</task>
+
+<labels>
+hello, father, learn, teacher, mother, eat, deaf, good, sad, no,
+yes, need, please, like, happy, tired, school, want, finish, nice
+</labels>
+
+<format>
+Respond in JSON with one field, "answer", whose value is exactly one of the labels above.
+Example: {"answer": "hello"}
+</format>""",
+
+    # v3: copy v2 (or an earlier version) here, make ONE change, and write the change and hypothesis above it.
+    # For chain-of-thought, also add "v3" to REASONING_VERSIONS; for few-shot, to FEWSHOT_VERSIONS.
 }
 
 
