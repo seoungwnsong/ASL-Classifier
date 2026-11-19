@@ -33,13 +33,18 @@ BLACK_FRAME_MAX = 30
 
 # ---- New layers on top (the "head"), trained by train.py ----
 
-# Neurons in the hidden Dense layer (0 = no hidden layer). This is the capacity
-# hyperparameter we tune on the validation clips.
-HIDDEN_UNITS = 128
+# Neurons in the hidden Dense layer (0 = no hidden layer): the capacity hyperparameter.
+# Tuned on the validation clips with --hidden, together with DROPOUT (see train.py).
+# Tried 0, 64, 128, 256, 512 x dropout 0, 0.3, 0.5 (results/dl_tuning.csv): the best
+# validation accuracy was H = 64 with dropout 0.5 (131/208 clips), so those are the final values.
+HIDDEN_UNITS = 64
 
 # Fraction of numbers randomly set to 0 during training, so the head cannot just
-# memorise the 794 training clips.
-DROPOUT = 0.3
+# memorise the 794 training clips. Tuned with --dropout.
+DROPOUT = 0.5
+
+# The final trained head (made by train.py with the values above), used by predict.py
+FINAL_HEAD = f"head_H{HIDDEN_UNITS}_D{DROPOUT}.keras"
 
 # Training stops when the validation loss has not improved for PATIENCE epochs,
 # and the weights go back to the best epoch.
@@ -56,6 +61,7 @@ METADATA = REPO_ROOT / "data" / "metadata.csv"
 FEATURES_DIR = REPO_ROOT / "data" / "features"  # made by extract_features.py
 MODELS_DIR = REPO_ROOT / "models"  # trained heads, saved by train.py
 FIGURES_DIR = REPO_ROOT / "results" / "figures"
+TUNING_RESULTS = REPO_ROOT / "results" / "dl_tuning.csv"  # one row per H, added by train.py
 CAPTION_COVERS = REPO_ROOT / "data" / "caption_covers.csv"
 SPLIT_JSONS = [REPO_ROOT / "data" / f"{split}.json" for split in ("train", "val", "test")]
 WLASL_METADATA = REPO_ROOT / "data" / "raw" / "WLASL_v0.3.json"
