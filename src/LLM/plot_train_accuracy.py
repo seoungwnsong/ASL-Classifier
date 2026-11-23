@@ -24,6 +24,21 @@ FIGURE = REPO_ROOT / "results" / "figures" / "llm_train_accuracy"
 FINAL_VERSION = "v6"  # the version chosen on the validation set (marked on the chart)
 CHANCE = 1 / 20
 
+# Research-paper style, as in train.py: no title, the caption goes in the report
+BAR_COLOR, SECOND_COLOR = "#2a78d6", "#eb6834"  # blue / orange: the deep learning curve colours
+INK, GREY, GRID = "#0b0b0b", "#52514e", "#e3e2de"
+
+
+def apply_style():
+    plt.rcParams.update({"font.size": 9, "xtick.labelsize": 8, "ytick.labelsize": 8, "legend.fontsize": 8,
+                         "axes.edgecolor": GREY, "xtick.color": GREY, "ytick.color": GREY,
+                         "axes.spines.top": False, "axes.spines.right": False})
+
+
+def version_number(path):
+    """v12_train.jsonl -> 12, so versions sort as numbers (v2 before v10)."""
+    return int(path.name.split("_")[0][1:])
+
 
 def load_run(path):
     """The saved predictions of one run, as a list of dicts (the first line is the setup)."""
@@ -34,7 +49,7 @@ def load_run(path):
 
 def main():
     word_of = pd.read_csv(METADATA).set_index("example_id")["word"]
-    paths = sorted(RUNS_DIR.glob("v*_train.jsonl"), key=lambda p: int(p.name.split("_")[0][1:]))
+    paths = sorted(RUNS_DIR.glob("v*_train.jsonl"), key=version_number)
     rows, clip_ids = [], None
     for path in paths:
         results = load_run(path)
@@ -49,12 +64,8 @@ def main():
     scores = pd.DataFrame(rows)
     print(scores.to_string(index=False, formatters={"accuracy": "{:.1%}".format}))
 
-    # ---- Bar chart (research-paper style, as in train.py: no title, the caption goes in the report) ----
-    BAR_COLOR = "#2a78d6"  # the same blue as the deep learning training curve
-    INK, GREY, GRID = "#0b0b0b", "#52514e", "#e3e2de"
-    plt.rcParams.update({"font.size": 9, "xtick.labelsize": 8, "ytick.labelsize": 8,
-                         "axes.edgecolor": GREY, "xtick.color": GREY, "ytick.color": GREY,
-                         "axes.spines.top": False, "axes.spines.right": False})
+    # ---- Bar chart ----
+    apply_style()
     fig, ax = plt.subplots(figsize=(5.0, 2.6))
     ax.grid(axis="y", color=GRID, linewidth=0.6)
     ax.set_axisbelow(True)
